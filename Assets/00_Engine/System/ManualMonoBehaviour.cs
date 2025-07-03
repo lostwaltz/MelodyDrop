@@ -11,11 +11,15 @@ public abstract class ManualMonoBehaviour : MonoBehaviour
 
     private void Awake()
     {
+        if(false == enabled || false == gameObject.activeSelf) return;
+        
         ManualLifeCycleManager.Instance.BindAwake(this);
     }
 
     private void Start()
     {
+        if(false == enabled || false == gameObject.activeSelf) return;
+        
         ManualLifeCycleManager.Instance.BindStart(this);
     }
 

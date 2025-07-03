@@ -1,8 +1,9 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EntityComponentController : MonoBehaviour
 {
-    [SerializeField] private EntityComponent[] components;
+    [SerializeField] private List<EntityComponent> components;
 
     public void Initialize()
     {
@@ -18,5 +19,10 @@ public class EntityComponentController : MonoBehaviour
         {
             component.OnPlay();
         }
+    }
+
+    public void PushComponent(EntityComponent component)
+    {
+        components.Add(component);
     }
 }

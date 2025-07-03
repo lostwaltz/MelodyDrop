@@ -4,5 +4,6 @@ namespace Engine
     {
         OnStart, OnGameStart, OnEnd, OnPause, OnResume, OnStop
     }
+    
     public enum SceneType { ActiveScene, UserInterface, HUD, Cinematic, Environment, Loading, Core }
 }

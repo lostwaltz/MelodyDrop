@@ -12,7 +12,7 @@ public class GlowFrame : ManualMonoBehaviour
     public void Awake()
     {
         Material instancedMat = new Material(rend.material);
-        instancedMat.SetColor(EmColor, color * 5f);
+        instancedMat.SetColor(EmColor, color * 10f);
         
         rend.material = instancedMat;
     }

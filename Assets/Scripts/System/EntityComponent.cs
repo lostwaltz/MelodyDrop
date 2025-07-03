@@ -1,7 +1,15 @@
+using System;
 using UnityEngine;
 
 public abstract class EntityComponent : MonoBehaviour
 {
+    private void Reset()
+    {
+        if(false == TryGetComponent<EntityComponentController>(out EntityComponentController controller)) return;
+
+        controller.PushComponent(this);
+    }
+
     public virtual void Init()
     {
     }
