@@ -1,3 +1,4 @@
+using System;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,6 +14,14 @@ namespace Engine
     {
         [SerializeField] private SceneData sceneData;
         
+        
+        [Header("Managers")]
+        [SerializeField] private UIManager uiManager;
+        [SerializeField] private CameraManager cameraManager;
+        [SerializeField] private SceneChannelManager sceneManager;
+        [SerializeField] private DataManager dataManager;
+        [SerializeField] private FadeManager fadeManager;
+        
         public static EventHub<EngineEventType, EngineParam> EventContainer { get; private set; } = new ();
         
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -27,15 +36,23 @@ namespace Engine
 
         private void Awake()
         {
-            // Init System
-            //await InitEngine();
+            InitializeManager();
             
-            ManualLifeCycleManager.Instance.RunAwake();
+            ShortCut.Get<ManualLifeCycleManager>().RunAwake();
+        }
+
+        private void InitializeManager()
+        {
+            uiManager.InitializeSingleton();
+            cameraManager.InitializeSingleton();
+            sceneManager.InitializeSingleton();
+            dataManager.InitializeSingleton();
+            fadeManager.InitializeSingleton();
         }
 
         private async void Start()
         {
-            await SceneChannelManager.Instance.LoadScene(sceneData);
+            await ShortCut.Get<SceneChannelManager>().LoadScene(sceneData);
             
             ManualLifeCycleManager.Instance.RunStart();
         }

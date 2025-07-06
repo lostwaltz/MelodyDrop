@@ -1,0 +1,8 @@
+[
+  {
+    "ItemID": 100000,
+    "Name": "Cube",
+    "PrefabPath": "Prefabs/Entity/Cube",
+    "AddressableTag": "EntityCube"
+  }
+]

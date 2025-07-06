@@ -163,7 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8522c5187763204cb64a08a17b59991, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  excelFolder: ../MiniMash/ExternalResource
+  excelFolder: ../MelodyDrop/ExternalResource
   jsonSaveFolder: Assets/Resources/Json
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

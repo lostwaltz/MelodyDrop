@@ -7,7 +7,7 @@ namespace Engine
     {
     }
 
-    public struct PlayerEvent : IEvent
+    public struct InitEvent : IEvent
     {
     }
 

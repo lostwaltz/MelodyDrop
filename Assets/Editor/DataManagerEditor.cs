@@ -1,10 +1,14 @@
+using System.Collections;
 using UnityEditor;
 using UnityEngine;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Linq;
 
 [CustomEditor(typeof(DataManager))]
 public class DataManagerEditor : Editor
 {
-    private bool _showItemData = false;
+    private readonly Dictionary<string, bool> _foldouts = new();
 
     public override void OnInspectorGUI()
     {
@@ -12,32 +16,107 @@ public class DataManagerEditor : Editor
 
         DataManager dataManager = (DataManager)target;
 
-        if (dataManager.ItemDataMap == null)
+        var fields = typeof(DataManager).GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+
+        foreach (var field in fields)
         {
-            EditorGUILayout.HelpBox("ItemDataMap is null or not initialized.", MessageType.Warning);
-            return;
+            // Dictionary<int, T> 필드만 필터링
+            if (!field.FieldType.IsGenericType ||
+                field.FieldType.GetGenericTypeDefinition() != typeof(Dictionary<,>) ||
+                field.FieldType.GetGenericArguments()[0] != typeof(int)) continue;
+            if (field.GetValue(dataManager) is not IDictionary dict)
+            {
+                EditorGUILayout.HelpBox($"{field.Name} is null or not initialized.", MessageType.Warning);
+                continue;
+            }
+
+            _foldouts.TryAdd(field.Name, false);
+
+            EditorGUILayout.Space(10);
+            EditorGUILayout.LabelField($"{field.Name} Count: {dict.Count}", EditorStyles.boldLabel);
+            _foldouts[field.Name] = EditorGUILayout.Foldout(_foldouts[field.Name], $"Show {field.Name}");
+
+            if (!_foldouts[field.Name]) continue;
+            EditorGUI.indentLevel++;
+            foreach (var key in dict.Keys)
+            {
+                object item = dict[key];
+                if (item == null)
+                {
+                    EditorGUILayout.LabelField($"[{key}] <null>");
+                    continue;
+                }
+
+                EditorGUILayout.LabelField($"[{key}] {item.GetType().Name}", EditorStyles.boldLabel);
+                EditorGUI.indentLevel++;
+                DrawObjectFields(item);
+                EditorGUI.indentLevel--;
+            }
+            EditorGUI.indentLevel--;
+        }
+    }
+
+    private void DrawObjectFields(object obj)
+    {
+        var type = obj.GetType();
+
+        // public 필드 출력
+        var fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public);
+        foreach (var field in fields)
+        {
+            object value = field.GetValue(obj);
+            EditorGUILayout.LabelField($"{field.Name}: {FormatValue(value)}");
         }
 
-        EditorGUILayout.Space(10);
-        EditorGUILayout.LabelField($"Item Count: {dataManager.ItemDataMap.Count}", EditorStyles.boldLabel);
-
-        _showItemData = EditorGUILayout.Foldout(_showItemData, "Show Item Data");
-
-        if (!_showItemData) return;
-        
-        EditorGUI.indentLevel++;
-        foreach (var kvp in dataManager.ItemDataMap)
+        // public 프로퍼티 출력 (읽기 전용만)
+        var properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+        foreach (var prop in properties)
         {
-            var item = kvp.Value;
-            if (item != null)
-            {
-                EditorGUILayout.LabelField($"[{kvp.Key}] {item.Name}");
-            }
-            else
-            {
-                EditorGUILayout.LabelField($"[{kvp.Key}] <null>");
-            }
+            if (prop.GetIndexParameters().Length > 0 || !prop.CanRead)
+                continue;
+
+            object value;
+            try { value = prop.GetValue(obj); }
+            catch { continue; }
+
+            EditorGUILayout.LabelField($"{prop.Name}: {FormatValue(value)}");
         }
-        EditorGUI.indentLevel--;
+    }
+
+    private string FormatValue(object value)
+    {
+        if (value == null)
+            return "<null>";
+
+        var type = value.GetType();
+
+        // 배열
+        if (!type.IsArray)
+            return value switch
+            {
+                // List<T>, IEnumerable
+                System.Collections.IEnumerable enumerable when !(value is string) => FormatEnumerable(enumerable),
+                // 문자열 따옴표 추가
+                string str => $"\"{str}\"",
+                _ => value.ToString()
+            };
+        var array = value as System.Array;
+        return FormatEnumerable(array);
+
+    }
+
+    private static string FormatEnumerable(System.Collections.IEnumerable enumerable)
+    {
+        if (enumerable == null) return "<null>";
+
+        List<string> elements = new();
+        foreach (var element in enumerable)
+        {
+            elements.Add(element?.ToString() ?? "null");
+        }
+
+        // 너무 많으면 자르기
+        const int maxPreview = 10;
+        return elements.Count > maxPreview ? $"[{string.Join(", ", elements.Take(maxPreview))}, ...]" : $"[{string.Join(", ", elements)}]";
     }
 }

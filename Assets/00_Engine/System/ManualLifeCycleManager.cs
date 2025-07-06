@@ -3,14 +3,14 @@ using UnityEngine;
 
 namespace Engine
 {
-    public class ManualLifeCycleManager : StaticInstance<ManualLifeCycleManager>
+    public class ManualLifeCycleManager : StaticInstance<ManualLifeCycleManager>, IServiceRegistrable
     {
         private readonly Queue<ManualMonoBehaviour> _awakeQueue = new();
         private readonly Queue<ManualMonoBehaviour> _startQueue = new();
 
         private bool _hasRunAwake = false;
         private bool _hasRunStart = false;
-
+        
         public void BindAwake(ManualMonoBehaviour behaviour)
         {
             if (_hasRunAwake)
@@ -47,6 +47,11 @@ namespace Engine
 
             while (_startQueue.Count > 0)
                 _startQueue.Dequeue().ManualStart();
+        }
+
+        public void RegisterService()
+        {
+            ServiceManager.Instance.Register(this);
         }
     }
 }

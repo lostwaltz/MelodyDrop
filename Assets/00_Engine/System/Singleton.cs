@@ -34,10 +34,10 @@ namespace Engine
 
         protected virtual void Awake()
         {
-            InitializeSingleton();
+            //InitializeSingleton();
         }
 
-        protected virtual void InitializeSingleton()
+        public virtual void InitializeSingleton()
         {
             if (!Application.isPlaying) return;
 
@@ -57,6 +57,8 @@ namespace Engine
             if (_instance != null) return;
             
             _instance = this as T;
+            
+            ServiceManager.Instance.Register(this as T);
         }
     }
 }

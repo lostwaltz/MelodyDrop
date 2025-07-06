@@ -20,7 +20,7 @@ namespace Engine
         
         private readonly Dictionary<SceneType, AsyncOperationHandle<SceneInstance>> _handle = new();
         
-        protected override void InitializeSingleton()
+        public override void InitializeSingleton()
         {
             base.InitializeSingleton();
             

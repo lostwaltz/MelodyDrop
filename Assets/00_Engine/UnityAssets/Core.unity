@@ -275,7 +275,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 551691989}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -602,6 +602,11 @@ MonoBehaviour:
       asset: {fileID: 102900000, guid: 21aedff90dc5ff94ba67484641a07d31, type: 3}
       guid: 21aedff90dc5ff94ba67484641a07d31
     sceneType: 1
+  uiManager: {fileID: 1491232277}
+  cameraManager: {fileID: 1223510229}
+  sceneManager: {fileID: 284413781}
+  dataManager: {fileID: 1113997258}
+  fadeManager: {fileID: 1260271701}
 --- !u!4 &1462067280
 Transform:
   m_ObjectHideFlags: 0

@@ -1,0 +1,101 @@
+[
+  {
+    "ItemID": 100000,
+    "Name": "RainbowCubeRush",
+    "EntityKeyArray": [
+      1000000,
+      1000000,
+      1000000,
+      1000000,
+      1000000
+    ],
+    "SpawnDelayArray": [
+      0.0,
+      0.5,
+      0.5,
+      0.5,
+      0.5
+    ],
+    "EntityColorArray": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "SpawnIndexArray": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "ItemID": 100001,
+    "Name": "RandomCubeRushA",
+    "EntityKeyArray": [
+      1000000,
+      1000000,
+      1000000,
+      1000000,
+      1000000
+    ],
+    "SpawnDelayArray": [
+      0.0,
+      0.5,
+      0.5,
+      0.5,
+      0.5
+    ],
+    "EntityColorArray": [
+      -1,
+      -1,
+      -1,
+      -1,
+      -1
+    ],
+    "SpawnIndexArray": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "ItemID": 100002,
+    "Name": "RandomCubeRushB",
+    "EntityKeyArray": [
+      1000000,
+      1000000,
+      1000000,
+      1000000,
+      1000000
+    ],
+    "SpawnDelayArray": [
+      0.0,
+      0.5,
+      0.5,
+      0.5,
+      0.5
+    ],
+    "EntityColorArray": [
+      -1,
+      -1,
+      -1,
+      -1,
+      -1
+    ],
+    "SpawnIndexArray": [
+      -1,
+      -1,
+      -1,
+      -1,
+      -1
+    ]
+  }
+]

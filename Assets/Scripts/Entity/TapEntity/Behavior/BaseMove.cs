@@ -8,7 +8,7 @@ public class BaseMove : EntityComponent
     {
         Vector3 pos = transform.position;
 
-        transform.DOMove(new Vector3(pos.x, 0.6f, pos.z), 5f).SetEase(Ease.Linear).OnComplete(CallDoneMove);
+        transform.DOMove(new Vector3(pos.x, 0.6f, pos.z), 8f).SetEase(Ease.Linear).OnComplete(CallDoneMove);
     }
 
     private void CallDoneMove()

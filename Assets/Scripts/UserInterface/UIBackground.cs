@@ -9,6 +9,6 @@ public class UIBackground : UIBase
     {
         base.ManualStart();
 
-        canvas.worldCamera = CameraManager.Instance.GetMainCamera();
+        canvas.worldCamera = ShortCut.Get<CameraManager>().GetMainCamera();
     }
 }
