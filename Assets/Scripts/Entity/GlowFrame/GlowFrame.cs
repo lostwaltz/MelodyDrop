@@ -8,11 +8,13 @@ public class GlowFrame : ManualMonoBehaviour
     [SerializeField] private Renderer rend;
 
     [SerializeField] private Color color;
+
+    [SerializeField] private float pow = 10f;
     
     public void Awake()
     {
         Material instancedMat = new Material(rend.material);
-        instancedMat.SetColor(EmColor, color * 10f);
+        instancedMat.SetColor(EmColor, color * pow);
         
         rend.material = instancedMat;
     }

@@ -12,7 +12,7 @@ public class GameLifeCyclePatternSelectState : GameLifeCycleBaseState
         base.OnEnter();
 
         Handler.ServiceContainer.Get<GameLifeCycleEntitySpawnState>()
-            .SetSpawnPattern(ShortCut.Get<DataManager>().SpawnPatternDataMap[100002]);
+            .SetSpawnPattern(ShortCut.Get<DataManager>().SpawnPatternDataMap[Random.Range(100000, 100002)]);
     }
 
     public override void Update()
