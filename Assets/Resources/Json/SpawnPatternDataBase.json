@@ -16,13 +16,12 @@
       0.5,
       0.5
     ],
-    "EntityColorArray": [
-      0,
-      1,
-      2,
-      3,
-      4,
-      5
+    "EntityColorKey": [
+      100000,
+      100001,
+      100002,
+      100003,
+      100004
     ],
     "SpawnIndexArray": [
       0,
@@ -50,7 +49,7 @@
       0.5,
       0.5
     ],
-    "EntityColorArray": [
+    "EntityColorKey": [
       -1,
       -1,
       -1,
@@ -83,7 +82,7 @@
       0.5,
       0.5
     ],
-    "EntityColorArray": [
+    "EntityColorKey": [
       -1,
       -1,
       -1,

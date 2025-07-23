@@ -51,5 +51,11 @@ namespace Engine
 
             return this;
         }
+        
+        public bool Unregister<T>() where T : class
+        {
+            var type = typeof(T);
+            return _services.Remove(type);
+        }
     }
 }

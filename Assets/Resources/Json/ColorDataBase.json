@@ -1,0 +1,44 @@
+[
+  {
+    "ItemID": 100000,
+    "Name": "Red",
+    "ColorR": 255,
+    "ColorG": 255,
+    "ColorB": 255
+  },
+  {
+    "ItemID": 100001,
+    "Name": "Yellow",
+    "ColorR": 255,
+    "ColorG": 242,
+    "ColorB": 117
+  },
+  {
+    "ItemID": 100002,
+    "Name": "Green",
+    "ColorR": 111,
+    "ColorG": 255,
+    "ColorB": 176
+  },
+  {
+    "ItemID": 100003,
+    "Name": "Blue",
+    "ColorR": 112,
+    "ColorG": 207,
+    "ColorB": 255
+  },
+  {
+    "ItemID": 100004,
+    "Name": "Purple",
+    "ColorR": 202,
+    "ColorG": 24,
+    "ColorB": 202
+  },
+  {
+    "ItemID": 101000,
+    "Name": "Rainbow",
+    "ColorR": -1,
+    "ColorG": -1,
+    "ColorB": -1
+  }
+]

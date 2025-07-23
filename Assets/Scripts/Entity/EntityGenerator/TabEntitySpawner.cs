@@ -1,4 +1,4 @@
-using System;
+using Engine;
 using UnityEngine;
 
 public class TabEntitySpawner : MonoBehaviour
@@ -7,14 +7,17 @@ public class TabEntitySpawner : MonoBehaviour
     
     public bool CanSpawn {get; private set;} = true;
     
-    public bool SpawnEntity(int entityKey, Color color)
+    public bool SpawnEntity(int entityKey, int colorKey)
     {
         if(false == CanSpawn) return false;
         
         TabEntity entity = Instantiate(tabEntity);
-            
-        entity.ChangeColor(color);
         
+        ShortCut.Get<DataManager>().ColorDataMap.TryGetValue(colorKey, out ColorData colorData);
+
+        if (colorData != null) 
+            entity.ChangeColor(colorData);
+
         entity.gameObject.transform.position = transform.position;
             
         entity.gameObject.SetActive(true);

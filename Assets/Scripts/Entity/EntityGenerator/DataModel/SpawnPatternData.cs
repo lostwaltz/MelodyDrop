@@ -8,6 +8,6 @@ public class SpawnPatternData
     public string Name;
     public int[] EntityKeyArray;
     public float[] SpawnDelayArray;
-    public int[] EntityColorArray;
+    public int[] EntityColorKey;
     public int[] SpawnIndexArray;
 }

@@ -10,5 +10,6 @@ namespace Engine
 
         public T Get<T>() where T : class => _globalContainer.Get<T>();
         public void Register<T>(T service) where T : class => _globalContainer.Register(service);
+        public void RemoveService<T>() where T : class => _globalContainer.Unregister<T>();
     }
 }

@@ -1,14 +1,15 @@
 using Engine;
 using UnityEngine;
 
-public class TabEntity : ManualMonoBehaviour
+public class TabEntity : ManualMonoBehaviour, IInteractable
 {
     public enum EntityEvent
     {
         EntityDestroy
     }
     
-    private TabEntityData _data;
+    private EntityData _data;
+    private ColorData _colorData;
 
     [SerializeField] private EntityComponentController controller;
     
@@ -19,6 +20,8 @@ public class TabEntity : ManualMonoBehaviour
     public override void ManualAwake()
     {
         EventHub = new EventHub<EntityEvent>();
+
+        InteractionType = InteractionType.Cube;
         
         controller.Initialize();
     }
@@ -30,8 +33,22 @@ public class TabEntity : ManualMonoBehaviour
         controller.RunOnPlay();
     }
 
-    public void ChangeColor(Color color)
+    public void ChangeColor(ColorData colorData)
     {
-        instanceMaterialCreator.ChangeColor(color);
+        if(colorData == null) return;
+        
+        _colorData = colorData;
+        ChangeColor(colorData.GetColor());
+    }
+    
+    private void ChangeColor(Color color)
+    {
+         instanceMaterialCreator.ChangeColor(color);
+    }
+
+    public InteractionType InteractionType { get; set; }
+    public void Interact()
+    {
+        
     }
 }

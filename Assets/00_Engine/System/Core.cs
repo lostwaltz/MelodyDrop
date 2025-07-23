@@ -21,6 +21,8 @@ namespace Engine
         [SerializeField] private SceneChannelManager sceneManager;
         [SerializeField] private DataManager dataManager;
         [SerializeField] private FadeManager fadeManager;
+        [SerializeField] private InputManager inputManager;
+        [SerializeField] private InteractionManager interactionManager;
         
         public static EventHub<EngineEventType, EngineParam> EventContainer { get; private set; } = new ();
         
@@ -48,6 +50,8 @@ namespace Engine
             sceneManager.InitializeSingleton();
             dataManager.InitializeSingleton();
             fadeManager.InitializeSingleton();
+            inputManager.InitializeSingleton();
+            interactionManager.InitializeSingleton();
         }
 
         private async void Start()

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UnityEngine;
 
@@ -59,6 +60,11 @@ namespace Engine
             _instance = this as T;
             
             ServiceManager.Instance.Register(this as T);
+        }
+
+        private void OnDestroy()
+        {
+            ServiceManager.Instance.RemoveService<T>();
         }
     }
 }
