@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 
-public class GlowFrame : ManualMonoBehaviour, IInteractable
+public class GlowFrame : ManualMonoBehaviour
 {
     private static readonly string EmColor = "_Color";
     [SerializeField] private Renderer rend;
@@ -18,14 +18,8 @@ public class GlowFrame : ManualMonoBehaviour, IInteractable
     {
         Material instancedMat = new Material(rend.material);
         instancedMat.SetColor(EmColor, color * pow);
-        InteractionType = InteractionType.GlowPanel;
         
         rend.material = instancedMat;
 
-    }
-
-    public InteractionType InteractionType { get; set; }
-    public void Interact()
-    {
     }
 }

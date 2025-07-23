@@ -1,7 +1,8 @@
 using Engine;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class TabEntity : ManualMonoBehaviour, IInteractable
+public class TabEntity : ManualMonoBehaviour
 {
     public enum EntityEvent
     {
@@ -12,8 +13,9 @@ public class TabEntity : ManualMonoBehaviour, IInteractable
     private ColorData _colorData;
 
     [SerializeField] private EntityComponentController controller;
-    
     [SerializeField] private InstanceMaterialCreator instanceMaterialCreator;
+
+    [SerializeField] private PointEventHub hub;
 
     public EventHub<EntityEvent> EventHub { get; private set; }
     
@@ -21,16 +23,17 @@ public class TabEntity : ManualMonoBehaviour, IInteractable
     {
         EventHub = new EventHub<EntityEvent>();
 
-        InteractionType = InteractionType.Cube;
-        
         controller.Initialize();
+        
     }
-
+    
     public override void ManualStart()
     {
         base.ManualStart();
         
         controller.RunOnPlay();
+        
+        hub.Bind(gameObject, PointEventType.Click, (_) => ShortCut.Get<GameInteractionHandler>().SelectCube(this));
     }
 
     public void ChangeColor(ColorData colorData)
@@ -44,11 +47,5 @@ public class TabEntity : ManualMonoBehaviour, IInteractable
     private void ChangeColor(Color color)
     {
          instanceMaterialCreator.ChangeColor(color);
-    }
-
-    public InteractionType InteractionType { get; set; }
-    public void Interact()
-    {
-        
     }
 }

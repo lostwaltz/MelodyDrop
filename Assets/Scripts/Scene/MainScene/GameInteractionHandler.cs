@@ -1,42 +1,39 @@
 using Engine;
 using UnityEngine;
 
-public class GameInteractionHandler : ManualMonoBehaviour
+public class GameInteractionHandler : Singleton<GameInteractionHandler>
 {
     private TabEntity _selectedEntity;
 
-    public override void ManualAwake()
+    protected override void Awake()
     {
-        base.ManualAwake();
+        base.Awake();
         
-        ShortCut.Get<InteractionManager>().Subscribe(InteractionType.Cube, OnCubeClicked);
-        ShortCut.Get<InteractionManager>().Subscribe(InteractionType.GlowPanel, OnPanelClicked);
+        InitializeSingleton();
     }
-    private void OnCubeClicked(IInteractable interactable)
+
+    public void SelectCube(TabEntity clickedEntity)
     {
-        if (interactable is not TabEntity entity) return;
-        
-        _selectedEntity = entity;
-        _selectedEntity.Interact();
+        _selectedEntity = clickedEntity;
         
         Debug.Log($"Selected entity: {_selectedEntity}");
     }
 
-    private void OnPanelClicked(IInteractable interactable)
-    {
-        if (interactable is not GlowFrame frame || _selectedEntity == null) return;
-
-        Vector3 targetPosition = frame.transform.position;
-        
-        _selectedEntity.transform.position = new Vector3(targetPosition.x, _selectedEntity.transform.position.y, targetPosition.z);
-        
-        //var result = JudgeMatch(_selectedCube, panel);
-        
-        // if (result)
-        //     _selectedEntity.DropFastTo(panel);
-        // else
-        //     _selectedEntity.DropSlowTo(panel);
-        
-        _selectedEntity = null;
-    }
+    // private void OnPanelClicked(IInteractable interactable)
+    // {
+    //     if (interactable is not GlowFrame frame || _selectedEntity == null) return;
+    //
+    //     Vector3 targetPosition = frame.transform.position;
+    //     
+    //     _selectedEntity.transform.position = new Vector3(targetPosition.x, _selectedEntity.transform.position.y, targetPosition.z);
+    //     
+    //     //var result = JudgeMatch(_selectedCube, panel);
+    //     
+    //     // if (result)
+    //     //     _selectedEntity.DropFastTo(panel);
+    //     // else
+    //     //     _selectedEntity.DropSlowTo(panel);
+    //     
+    //     _selectedEntity = null;
+    // }
 }

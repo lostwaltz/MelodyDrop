@@ -17,4 +17,10 @@ namespace Engine
         GlowPanel   = 1 << 1,
         All         = ~0
     }
+
+    public enum PointEventType
+    {
+        Click,
+        Drag
+    }
 }

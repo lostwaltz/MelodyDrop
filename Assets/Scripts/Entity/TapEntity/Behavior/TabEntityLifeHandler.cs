@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class LifetimeHandler : EntityComponent
+public class TabEntityLifeHandler : EntityComponent
 {
     [SerializeField] private float destroyPointY;
 

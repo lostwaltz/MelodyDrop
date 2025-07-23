@@ -18,6 +18,8 @@ GameObject:
   - component: {fileID: 711934956825307682}
   - component: {fileID: 4087870298686354954}
   - component: {fileID: 2457002588200986502}
+  - component: {fileID: 2062034541245466264}
+  - component: {fileID: 2234622442470810113}
   m_Layer: 6
   m_Name: TabEntity
   m_TagString: Untagged
@@ -33,7 +35,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 866885004868822668}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -11.24, y: -13.02, z: 20.64}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -155,6 +157,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 6062286225728396207}
   instanceMaterialCreator: {fileID: 711934956825307682}
+  container: {fileID: 2062034541245466264}
 --- !u!114 &6062286225728396207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,3 +212,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroyPointY: 0.5
+--- !u!114 &2062034541245466264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 866885004868822668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dadb00641adbb040bbeb4d6fa81250a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2234622442470810113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 866885004868822668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb3215e200d159d4fa19177665932b4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  root: {fileID: 2062034541245466264}
