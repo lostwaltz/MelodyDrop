@@ -10,7 +10,7 @@ namespace Engine
         {
             base.ManualAwake();
 
-            _root.EventHub.Register(PointEventType.Click, this);
+            root.EventHub.Register(PointEventType.Click, this);
         }
 
         public void OnPointerClick(PointerEventData eventData)

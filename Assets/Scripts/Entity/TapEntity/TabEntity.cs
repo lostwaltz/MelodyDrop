@@ -10,10 +10,14 @@ public class TabEntity : ManualMonoBehaviour
     }
     
     private EntityData _data;
-    private ColorData _colorData;
+    
+    public TabEntitySpawner Spawner { get; set; }
 
-    [SerializeField] private EntityComponentController controller;
+    public ColorData ColorData { get; private set; }
+
+    [SerializeField] private EntityComponentContainer container;
     [SerializeField] private InstanceMaterialCreator instanceMaterialCreator;
+    [SerializeField] private BaseMove move;
 
     [SerializeField] private PointEventHub hub;
 
@@ -23,24 +27,31 @@ public class TabEntity : ManualMonoBehaviour
     {
         EventHub = new EventHub<EntityEvent>();
 
-        controller.Initialize();
-        
+        container.Initialize(this);
     }
     
     public override void ManualStart()
     {
-        base.ManualStart();
-        
-        controller.RunOnPlay();
+        container.RunOnPlay();
         
         hub.Bind(gameObject, PointEventType.Click, (_) => ShortCut.Get<GameInteractionHandler>().SelectCube(this));
+    }
+
+    public bool CheckMatch()
+    {
+        return Spawner.GlowFrame.colorKey == ColorData.ItemID;
+    }
+
+    public void OnMatchSuccess()
+    {
+        move.ChangeSpeed(5f);
     }
 
     public void ChangeColor(ColorData colorData)
     {
         if(colorData == null) return;
         
-        _colorData = colorData;
+        ColorData = colorData;
         ChangeColor(colorData.GetColor());
     }
     

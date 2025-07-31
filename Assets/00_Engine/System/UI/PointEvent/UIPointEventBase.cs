@@ -1,42 +1,43 @@
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 namespace Engine
 {
     public abstract class UIPointEventBase : ManualMonoBehaviour
     {
-        [SerializeField] protected UIBase _root;
+        [SerializeField] protected UIBase root;
 
         public override void ManualAwake()
         {
-            if (_root == null)
+            if (root == null)
             {
-                Transform root = transform.root;
-                _root = root.GetComponent<UIBase>() ?? root.GetComponentInChildren<UIBase>();
-                if (_root == null)
+                Transform transformRoot = transform.root;
+                this.root = transformRoot.GetComponent<UIBase>() ?? transformRoot.GetComponentInChildren<UIBase>();
+                if (this.root == null)
                 {
-                    Log.Warn($"{name} �̺�Ʈ ��� ����: UIBase�� ã�� �� ����.");
+                    Log.Warn($"{name} UIBase");
                     return;
                 }
             }
 
-            _root.EventHub.Register(PointEventType.Click, this);
+            root.EventHub.Register(PointEventType.Click, this);
         }
 
         protected void Reset()
         {
-            Transform root = gameObject.transform;
-            while (root.parent != null)
+            Transform transformRoot = gameObject.transform;
+            while (transformRoot.parent != null)
             {
-                root = root.parent;
+                transformRoot = transformRoot.parent;
             }
 
-            _root = root.GetComponent<UIBase>();
-            _root ??= root.GetComponentInChildren<UIBase>();
+            this.root = transformRoot.GetComponent<UIBase>();
+            this.root ??= transformRoot.GetComponentInChildren<UIBase>();
 
-            if (_root == null)
-                Log.Warn($"{this.name} �� ����� ����� �����ϴ�.");
+            if (this.root == null)
+                Log.Warn($"{this.name}");
         }
 
         public Action<PointerEventData> OnPointEvent { get; set; }

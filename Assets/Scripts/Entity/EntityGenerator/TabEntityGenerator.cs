@@ -8,7 +8,6 @@ using Random = UnityEngine.Random;
 
 public class TabEntityGenerator : MonoBehaviour
 {
-    [SerializeField] private TabEntity tabEntity;
     [SerializeField] private TabEntitySpawner[] spawners;
 
     public readonly ServiceContainer ServiceContainer = new();
@@ -38,7 +37,9 @@ public class TabEntityGenerator : MonoBehaviour
     private IEnumerator SpawnRoutine(SpawnPatternData pattern)
     {
         int length = pattern.EntityKeyArray.Length;
-
+        
+        List<int> colorKeyList = new List<int> { 100000, 100001, 100002, 100003, 100004 };
+        
         for (int i = 0; i < length; i++)
         {
             int entityKey = pattern.EntityKeyArray[i];
@@ -49,7 +50,11 @@ public class TabEntityGenerator : MonoBehaviour
             yield return new WaitForSeconds(delay);
 
             if (colorKey == -1)
-                colorKey = Random.Range(100000, 100004 + 1);
+            {
+                int index = Random.Range(0, colorKeyList.Count);
+                colorKey = colorKeyList[index];
+                colorKeyList.RemoveAt(index);
+            }
             
             SpawnEntity(0, colorKey, posIndex);
         }

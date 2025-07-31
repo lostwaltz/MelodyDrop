@@ -62,9 +62,10 @@ namespace Engine
             ServiceManager.Instance.Register(this as T);
         }
 
-        private void OnDestroy()
+        public virtual void ReleaseSingleton()
         {
             ServiceManager.Instance.RemoveService<T>();
+
         }
     }
 }

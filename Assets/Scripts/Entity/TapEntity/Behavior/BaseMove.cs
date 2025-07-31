@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class BaseMove : EntityComponent
 {
-    private void Start()
+    private float _speed = 1f;
+    
+    private void Update()
     {
-        Vector3 pos = transform.position;
-
-        transform.DOMoveY(0.5f, 8f).SetEase(Ease.Linear).OnComplete(CallDoneMove);
+        transform.Translate(Vector3.down * (_speed * Time.deltaTime), Space.World);
     }
 
-    private void CallDoneMove()
+    public void ChangeSpeed(float speed)
     {
-        GetComponent<TabEntity>().EventHub.Publish(TabEntity.EntityEvent.EntityDestroy);
+        _speed = speed;
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        GetRoot<TabEntity>().EventHub.Publish(TabEntity.EntityEvent.EntityDestroy);
     }
 }

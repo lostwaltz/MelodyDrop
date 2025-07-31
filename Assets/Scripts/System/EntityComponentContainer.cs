@@ -1,15 +1,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EntityComponentController : MonoBehaviour
+public class EntityComponentContainer : MonoBehaviour
 {
     [SerializeField] private List<EntityComponent> components;
 
-    public void Initialize()
+    private void OnValidate()
+    {
+#if UNITY_EDITOR
+        if (Application.isPlaying) return;
+        
+        components.Clear();
+        var comps = GetComponentsInChildren<EntityComponent>(true);
+        components.AddRange(comps);
+#endif
+    }
+    
+    public void Initialize<T>(T root) where T : Component
     {
         foreach (var component in components)
         {
-            component.Init();
+            component.Init(root);
         }
     }
 

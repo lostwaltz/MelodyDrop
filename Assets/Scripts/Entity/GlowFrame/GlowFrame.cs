@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 
-public class GlowFrame : ManualMonoBehaviour
+public class GlowFrame : MonoBehaviour
 {
     private static readonly string EmColor = "_Color";
     [SerializeField] private Renderer rend;
@@ -12,7 +12,8 @@ public class GlowFrame : ManualMonoBehaviour
     [SerializeField] private float pow = 10f;
     
     [SerializeField] public int colorKey;
-    [SerializeField] public EventTrigger trigger;
+
+    [SerializeField] private PointEventHub hub;
     
     public void Awake()
     {
@@ -20,6 +21,5 @@ public class GlowFrame : ManualMonoBehaviour
         instancedMat.SetColor(EmColor, color * pow);
         
         rend.material = instancedMat;
-
     }
 }

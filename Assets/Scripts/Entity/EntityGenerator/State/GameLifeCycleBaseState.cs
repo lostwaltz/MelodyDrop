@@ -1,9 +1,13 @@
-﻿public abstract class GameLifeCycleBaseState : BaseState
+﻿
+namespace State.GameLifeCycleBaseState
 {
-    protected readonly GameLifeCycleManager Handler;
-
-    protected GameLifeCycleBaseState(GameLifeCycleManager handler)
+    public abstract class GameLifeCycleBaseState : BaseState
     {
-        Handler = handler;
+        protected readonly GameManager Handler;
+
+        protected GameLifeCycleBaseState(GameManager handler)
+        {
+            Handler = handler;
+        }
     }
 }

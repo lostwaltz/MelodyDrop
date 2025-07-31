@@ -1,10 +1,14 @@
 using Engine;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class TabEntitySpawner : MonoBehaviour
 {
     [SerializeField] private TabEntity tabEntity;
+    [SerializeField] private GlowFrame glowFrame;
     
+    public GlowFrame GlowFrame => glowFrame;
+
     public bool CanSpawn {get; private set;} = true;
     
     public bool SpawnEntity(int entityKey, int colorKey)
@@ -21,6 +25,8 @@ public class TabEntitySpawner : MonoBehaviour
         entity.gameObject.transform.position = transform.position;
             
         entity.gameObject.SetActive(true);
+        
+        entity.Spawner = this;
         
         CanSpawn = false;
         

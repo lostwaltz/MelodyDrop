@@ -14,26 +14,34 @@ public class GameInteractionHandler : Singleton<GameInteractionHandler>
 
     public void SelectCube(TabEntity clickedEntity)
     {
-        _selectedEntity = clickedEntity;
+        if (_selectedEntity != null)
+        {
+            SwapEntity(clickedEntity);
+            return;
+        }
         
-        Debug.Log($"Selected entity: {_selectedEntity}");
+        _selectedEntity = clickedEntity;
+
+        if (!_selectedEntity.CheckMatch()) return;
+        
+        _selectedEntity.OnMatchSuccess();
+        _selectedEntity = null;
     }
 
-    // private void OnPanelClicked(IInteractable interactable)
-    // {
-    //     if (interactable is not GlowFrame frame || _selectedEntity == null) return;
-    //
-    //     Vector3 targetPosition = frame.transform.position;
-    //     
-    //     _selectedEntity.transform.position = new Vector3(targetPosition.x, _selectedEntity.transform.position.y, targetPosition.z);
-    //     
-    //     //var result = JudgeMatch(_selectedCube, panel);
-    //     
-    //     // if (result)
-    //     //     _selectedEntity.DropFastTo(panel);
-    //     // else
-    //     //     _selectedEntity.DropSlowTo(panel);
-    //     
-    //     _selectedEntity = null;
-    // }
+    private void SwapEntity(TabEntity clickedEntity)
+    {
+        (clickedEntity.Spawner, _selectedEntity.Spawner) = 
+            (_selectedEntity.Spawner, clickedEntity.Spawner);
+        
+        (clickedEntity.transform.position, _selectedEntity.transform.position) = 
+            (_selectedEntity.transform.position, clickedEntity.transform.position);
+
+        if (clickedEntity.CheckMatch())
+            clickedEntity.OnMatchSuccess();
+
+        if (_selectedEntity.CheckMatch())
+            _selectedEntity.OnMatchSuccess();
+        
+        _selectedEntity = null;
+    }
 }

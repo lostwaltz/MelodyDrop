@@ -41,6 +41,20 @@ namespace Engine
             
             ShortCut.Get<ManualLifeCycleManager>().RunAwake();
         }
+        
+        private async void Start()
+        {
+            await ShortCut.Get<SceneChannelManager>().LoadScene(sceneData);
+            
+            ManualLifeCycleManager.Instance.RunStart();
+        }
+
+        private void OnDestroy()
+        {
+            ManualLifeCycleManager.Instance.RunDestroy();
+
+            ReleaseManager();
+        }
 
         private void InitializeManager()
         {
@@ -52,11 +66,15 @@ namespace Engine
             inputManager.InitializeSingleton();
         }
 
-        private async void Start()
+        private void ReleaseManager()
         {
-            await ShortCut.Get<SceneChannelManager>().LoadScene(sceneData);
-            
-            ManualLifeCycleManager.Instance.RunStart();
+            uiManager.ReleaseSingleton();
+            cameraManager.ReleaseSingleton();
+            sceneManager.ReleaseSingleton();
+            dataManager.ReleaseSingleton();
+            fadeManager.ReleaseSingleton();
+            inputManager.ReleaseSingleton();
         }
+        
     }
 }

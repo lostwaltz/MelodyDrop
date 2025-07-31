@@ -5,8 +5,10 @@ public class InstanceMaterialCreator : EntityComponent
 {
     [SerializeField] private Material instancedMat;
 
-    public override void Init()
+    public override void Init<T>(T component)
     {
+        base.Init(component);
+        
         Renderer rend = GetComponent<Renderer>();
         instancedMat = new Material(rend.material);
         

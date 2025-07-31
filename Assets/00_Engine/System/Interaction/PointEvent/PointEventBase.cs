@@ -2,42 +2,53 @@ using Engine;
 using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 
-public class PointEventBase : ManualMonoBehaviour
+namespace Engine
 {
-    [FormerlySerializedAs("_root")] [SerializeField] protected PointEventHub root;
-    public override void ManualAwake()
+    public abstract class PointEventBase : ManualMonoBehaviour
     {
-        if (root == null)
+        [SerializeField] protected PointEventHub root;
+        public Action<PointerEventData> OnPointEvent { get; set; }
+        public PointEventType EventType { get; set; }
+
+        public override void ManualAwake()
         {
-            Transform transformRoot = transform.root;
-            this.root = transformRoot.GetComponent<PointEventHub>() ?? transformRoot.GetComponentInChildren<PointEventHub>();
-            if (this.root == null)
+            if (root == null)
             {
-                Log.Warn($"{name} can't find PointEventContainer.");
-                return;
+                Transform transformRoot = gameObject.transform;
+
+                while (transformRoot.parent != null)
+                    transformRoot = transformRoot.parent;
+
+                root = transformRoot.GetComponent<PointEventHub>() ??
+                       transformRoot.GetComponentInChildren<PointEventHub>();
+                if (root == null)
+                {
+                    Log.Warn($"{name} can't find PointEventContainer.");
+                    return;
+                }
             }
+            
+            root.Register(PointEventType.Click, this);
         }
 
-        root.Register(PointEventType.Click, this);
-    }
-
-    protected void Reset()
-    {
-        Transform transformRoot = gameObject.transform;
-        while (transformRoot.parent != null)
+        public override void ManualDestroy()
         {
-            transformRoot = transformRoot.parent;
+            root.Unregister(EventType, this);
         }
 
-        root = transformRoot.GetComponent<PointEventHub>();
-        root ??= transformRoot.GetComponentInChildren<PointEventHub>();
+        protected void Reset()
+        {
+            Transform transformRoot = gameObject.transform;
+            while (transformRoot.parent != null)
+                transformRoot = transformRoot.parent;
 
-        if (root == null)
-            Log.Warn($"{name} can't find PointEventContainer.");
+            root = transformRoot.GetComponent<PointEventHub>() ??
+                   transformRoot.GetComponentInChildren<PointEventHub>();
+            ;
+
+            if (root == null)
+                Log.Warn($"{name} can't find PointEventContainer.");
+        }
     }
-
-    public Action<PointerEventData> OnPointEvent { get; set; }
-
 }
