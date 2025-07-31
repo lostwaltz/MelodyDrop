@@ -12,6 +12,6 @@ public class CameraBinder : ManualMonoBehaviour
     
     public override void ManualAwake()
     {
-        ShortCut.Get<CameraManager>().ChangeMainCamera(cam);
+        CameraManager.Instance.ChangeMainCamera(cam);
     }
 }

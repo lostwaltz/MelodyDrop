@@ -39,12 +39,12 @@ namespace Engine
         {
             InitializeManager();
             
-            ShortCut.Get<ManualLifeCycleManager>().RunAwake();
+            ManualLifeCycleManager.Instance.RunAwake();
         }
         
         private async void Start()
         {
-            await ShortCut.Get<SceneChannelManager>().LoadScene(sceneData);
+            await SceneChannelManager.Instance.LoadScene(sceneData);
             
             ManualLifeCycleManager.Instance.RunStart();
         }

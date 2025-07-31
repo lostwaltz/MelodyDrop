@@ -1,10 +1,5 @@
 using System;
 
-public interface IServiceRegistrable
-{
-    void RegisterService();
-}
-
 namespace Engine
 {
     public abstract class StaticInstance<T> where T : class, new()
@@ -12,11 +7,6 @@ namespace Engine
         private static readonly Lazy<T> StaticIns = new Lazy<T>(() =>
         {
             var inst = new T();
-
-            if (inst is IServiceRegistrable service)
-            {
-                service.RegisterService();
-            }
 
             return inst;
         });

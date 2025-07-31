@@ -7,6 +7,6 @@ public class UIBackground : UIBase
     
     public override void ManualStart()
     {
-        canvas.worldCamera = ShortCut.Get<CameraManager>().GetMainCamera();
+        CameraManager.Instance.GetMainCamera();
     }
 }

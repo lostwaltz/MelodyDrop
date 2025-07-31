@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Engine
 {
-    public class ManualLifeCycleManager : StaticInstance<ManualLifeCycleManager>, IServiceRegistrable
+    public class ManualLifeCycleManager : StaticInstance<ManualLifeCycleManager>
     {
         private readonly Queue<IManualAwake> _manualAwakes = new();
         private readonly Queue<IManualStart> _manualStarts= new();
@@ -86,11 +86,6 @@ namespace Engine
             
             component.ManualDestroy();
             UnbindDestroy(component);
-        }
-
-        public void RegisterService()
-        {
-            ServiceManager.Instance.Register(this);
         }
     }
 }
