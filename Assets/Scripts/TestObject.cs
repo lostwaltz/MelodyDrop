@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Engine;
@@ -5,16 +6,14 @@ using Unity.VisualScripting;
 
 public class TestObject : MonoBehaviour
 {
-    private void Start()
+    private void Awake()
     {
-        GetComponent<PointEventHub>().Bind(gameObject, PointEventType.Drag, TestFunc);
+        Debug.Log(transform.position);
+
     }
 
-    private void TestFunc(PointerEventData eventData)
+    private void Update()
     {
-        Vector3 screenPos = eventData.position;
-        Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, 5f));
-
-        transform.position = worldPos;
+        Debug.Log(transform.position);
     }
 }

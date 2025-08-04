@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 
 namespace Engine
@@ -6,5 +7,4 @@ namespace Engine
     {
         public static readonly StringBuilder Str = new();
     }
-
 }

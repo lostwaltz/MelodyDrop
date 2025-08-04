@@ -4,7 +4,7 @@ using UnityEngine.Serialization;
 
 namespace Engine
 {
-    public class CameraManager : Singleton<CameraManager>
+    public class CameraManager : SingletonMono<CameraManager>
     {
         [SerializeField] private Camera mainCamera;
 

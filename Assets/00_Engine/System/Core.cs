@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Cysharp.Threading.Tasks;
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,18 +13,12 @@ namespace Engine
     
     }
     
-    public class Core : MonoBehaviour
+    public class Core : SingletonMono<Core>
     {
         [SerializeField] private SceneData sceneData;
         
-        
-        [Header("Managers")]
-        [SerializeField] private UIManager uiManager;
-        [SerializeField] private CameraManager cameraManager;
-        [SerializeField] private SceneChannelManager sceneManager;
-        [SerializeField] private DataManager dataManager;
-        [SerializeField] private FadeManager fadeManager;
-        [SerializeField] private InputManager inputManager;
+        private List<ISingletonMonoInterface> _managers;
+        private Dictionary<Type, ISingletonMonoInterface> _managerMap = new();
         
         public static EventHub<EngineEventType, EngineParam> EventContainer { get; private set; } = new ();
         
@@ -35,45 +32,58 @@ namespace Engine
             EventContainer.Publish(EngineEventType.OnStart, new EngineParam());
         }
 
+        #region INTERFACE
+
+        public static T GetService<T>() where T : SingletonMono<T>
+        {
+            if(Instance == null)
+                return null;
+            
+            return Instance._managerMap.TryGetValue(typeof(T), out var value) ? value as T : null;
+        }
+
+        public static T GetSingleton<T>() where T : Singleton<T>, new()
+        {
+            return Singleton<T>.Instance;
+        }
+
+        #endregion
+
         private void Awake()
         {
+            _managers = gameObject.GetComponentsInChildren<ISingletonMonoInterface>().ToList();
+            foreach (var manager in _managers)
+                _managerMap[manager.GetSingletonType()] = manager;
+            
             InitializeManager();
             
-            ManualLifeCycleManager.Instance.RunAwake();
+            GetSingleton<ManualLifeCycleManager>().RunAwake();
         }
         
         private async void Start()
         {
-            await SceneChannelManager.Instance.LoadScene(sceneData);
+            await GetService<SceneChannelManager>().LoadScene(sceneData);
             
-            ManualLifeCycleManager.Instance.RunStart();
+            GetSingleton<ManualLifeCycleManager>().RunStart();
         }
 
         private void OnDestroy()
         {
-            ManualLifeCycleManager.Instance.RunDestroy();
+            GetSingleton<ManualLifeCycleManager>().RunDestroy();
 
             ReleaseManager();
         }
 
         private void InitializeManager()
         {
-            uiManager.InitializeSingleton();
-            cameraManager.InitializeSingleton();
-            sceneManager.InitializeSingleton();
-            dataManager.InitializeSingleton();
-            fadeManager.InitializeSingleton();
-            inputManager.InitializeSingleton();
+            foreach (var manager in _managers)
+                manager.InitializeSingleton();
         }
 
         private void ReleaseManager()
         {
-            uiManager.ReleaseSingleton();
-            cameraManager.ReleaseSingleton();
-            sceneManager.ReleaseSingleton();
-            dataManager.ReleaseSingleton();
-            fadeManager.ReleaseSingleton();
-            inputManager.ReleaseSingleton();
+            foreach (var manager in _managers)
+                manager.ReleaseSingleton();
         }
         
     }

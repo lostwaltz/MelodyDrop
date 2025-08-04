@@ -25,7 +25,7 @@ namespace Engine
 
         public override void ManualAwake()
         {
-            UIManager.Instance.RegisterUI(this);
+            Core.GetService<UIManager>().RegisterUI(this);
         }
 
         public void BindEvent(GameObject go, Action<PointerEventData> action, PointEventType type = PointEventType.Click)

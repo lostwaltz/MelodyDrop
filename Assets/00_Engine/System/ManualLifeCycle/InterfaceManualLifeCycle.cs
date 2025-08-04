@@ -5,27 +5,13 @@ using UnityEngine;
 
 public interface IManualLifeCycle
 {
-}
-
-public interface IManualAwake : IManualLifeCycle
-{
     public void ManualAwake();
-}
-
-public interface IManualStart : IManualLifeCycle
-{
     public void ManualStart();
-}
-
-public interface IManualDestroy : IManualLifeCycle
-{
     public void ManualDestroy();
 }
 
-public abstract class ManualMonoBehaviour : MonoBehaviour, IManualAwake, IManualStart, IManualDestroy
+public abstract class ManualMonoBehaviour : MonoBehaviour, IManualLifeCycle
 {
-    public bool HasDestroyed { get; set; } = false;
-    
     private void Awake()
     {
         ManualLifeCycleManager.Instance.BindAwake(this);
@@ -38,12 +24,6 @@ public abstract class ManualMonoBehaviour : MonoBehaviour, IManualAwake, IManual
         ManualLifeCycleManager.Instance.BindStart(this);
     }
 
-    private void OnDestroy()
-    {
-        ManualLifeCycleManager.Instance.ManualDestroy(this);
-    }
-
-
     public virtual void ManualAwake()
     {
     }
@@ -53,5 +33,12 @@ public abstract class ManualMonoBehaviour : MonoBehaviour, IManualAwake, IManual
     public virtual void ManualDestroy()
     {
         
+    }
+    
+    public void Destroy(GameObject go) => throw new InvalidOperationException("use manual_life_cycleManager manualDestroy method");
+
+    public void ManualDestroy(ManualMonoBehaviour component)
+    {
+        Core.GetSingleton<ManualLifeCycleManager>().ManualDestroy(component);
     }
 }

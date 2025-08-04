@@ -7,6 +7,6 @@ public class UIBackground : UIBase
     
     public override void ManualStart()
     {
-        CameraManager.Instance.GetMainCamera();
+        Core.GetService<CameraManager>().GetMainCamera();
     }
 }

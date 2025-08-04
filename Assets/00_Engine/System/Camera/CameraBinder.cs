@@ -12,6 +12,6 @@ public class CameraBinder : ManualMonoBehaviour
     
     public override void ManualAwake()
     {
-        CameraManager.Instance.ChangeMainCamera(cam);
+        Core.GetService<CameraManager>().ChangeMainCamera(cam);
     }
 }

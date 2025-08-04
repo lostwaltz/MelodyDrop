@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Engine
 {
-    public class UIManager : Singleton<UIManager>
+    public class UIManager : SingletonMono<UIManager>
     {
         private readonly Dictionary<string, UIBase> _uiDic = new();
 

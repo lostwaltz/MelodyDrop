@@ -9,7 +9,7 @@ namespace Engine
         Click,
     }
     
-    public class InputManager : Singleton<InputManager>
+    public class InputManager : SingletonMono<InputManager>
     {
         private InputSystem_Actions _input;
         private InputSystem_Actions.PlayerActions _actions;

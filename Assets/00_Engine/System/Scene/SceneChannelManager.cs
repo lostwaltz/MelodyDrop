@@ -12,7 +12,7 @@ using UnityEngine.SceneManagement;
 
 namespace Engine
 {
-    public class SceneChannelManager : Singleton<SceneChannelManager>
+    public class SceneChannelManager : SingletonMono<SceneChannelManager>
     {
         [SerializeField] public SceneContainer sceneContainer;
 

@@ -3,17 +3,17 @@ using UnityEngine;
 
 namespace Engine
 {
-    public class ManualLifeCycleManager : StaticInstance<ManualLifeCycleManager>
+    public class ManualLifeCycleManager : Singleton<ManualLifeCycleManager>
     {
-        private readonly Queue<IManualAwake> _manualAwakes = new();
-        private readonly Queue<IManualStart> _manualStarts= new();
-        private readonly Dictionary<Component, IManualDestroy> _manualDestroys = new();
+        private readonly Queue<IManualLifeCycle> _manualAwakes = new();
+        private readonly Queue<IManualLifeCycle> _manualStarts= new();
+        private readonly Dictionary<Component, IManualLifeCycle> _manualDestroys = new();
         
         private bool _hasRunAwake = false;
         private bool _hasRunStart = false;
         private bool _hasRunDestroy = false;
 
-        public void BindAwake(IManualAwake behaviour)
+        public void BindAwake(IManualLifeCycle behaviour)
         {
             if (_hasRunAwake)
             {
@@ -24,7 +24,7 @@ namespace Engine
             _manualAwakes.Enqueue(behaviour);
         }
         
-        public void BindStart(IManualStart behaviour)
+        public void BindStart(IManualLifeCycle behaviour)
         {
             if (_hasRunStart)
             {
@@ -35,7 +35,7 @@ namespace Engine
             _manualStarts.Enqueue(behaviour);
         }
         
-        public void BindDestroy(Component component, IManualDestroy behaviour)
+        public void BindDestroy(Component component, IManualLifeCycle behaviour)
         {
             if (_hasRunDestroy)
             {
@@ -79,11 +79,6 @@ namespace Engine
 
         public void ManualDestroy(ManualMonoBehaviour component)
         {
-            if(true == component.HasDestroyed)
-                return;
-            
-            component.HasDestroyed = true;
-            
             component.ManualDestroy();
             UnbindDestroy(component);
         }

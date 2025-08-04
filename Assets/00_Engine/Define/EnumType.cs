@@ -23,4 +23,9 @@ namespace Engine
         Click,
         Drag
     }
+
+    public enum TimeType
+    {
+        Default, GameObject, UI, System
+    }
 }

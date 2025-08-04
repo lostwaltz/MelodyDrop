@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace Engine
 {
-    public class FadeManager : Singleton<FadeManager>
+    public class FadeManager : SingletonMono<FadeManager>
     {
         [SerializeField] private CanvasGroup fadeCanvas;
 
